@@ -26,11 +26,22 @@ RUN apt-get update \
 
 RUN apt-get update \
       && apt-get install --no-install-recommends --no-install-suggests -y xz-utils ca-certificates \
-            zsh git tmux curl wget vim neovim golang-go \
+            zsh git curl wget vim neovim golang-go \
             make cmake build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
             llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev \
             autoconf bison libyaml-dev libgdbm-dev \
       && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update \
+      && apt-get install --no-install-recommends --no-install-suggests -y automake xsel libevent-dev \
+      && rm -rf /var/lib/apt/lists/* \
+      && git clone https://github.com/tmux/tmux.git \
+      && cd tmux \
+      && git checkout $(git tag | sort -V | tail -n 1) \
+      && sh autogen.sh \
+      && ./configure \
+      && make && make install \
+      && cd .. && rm -rf tmux
 
 RUN wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb \
       && dpkg -i erlang-solutions_1.0_all.deb \
