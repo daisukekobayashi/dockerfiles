@@ -2,7 +2,8 @@ FROM debian:stretch-slim
 
 ENV DEBIAN_FRONTEND noninteractivea
 
-ENV USER daisuke
+ARG username
+ENV USER $username
 ENV HOME /home/${USER}
 
 RUN apt-get update \
@@ -26,7 +27,7 @@ RUN apt-get update \
 
 RUN apt-get update \
       && apt-get install --no-install-recommends --no-install-suggests -y xz-utils ca-certificates \
-            zsh git curl wget vim neovim golang-go \
+            zsh git curl wget vim-nox neovim golang-go \
             make cmake build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
             llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev \
             autoconf bison libyaml-dev libgdbm-dev \
