@@ -30,7 +30,7 @@ RUN apt-get update \
             zsh git curl wget vim-nox neovim golang-go \
             make cmake build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
             llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev \
-            autoconf bison libyaml-dev libgdbm-dev \
+            autoconf bison libyaml-dev libgdbm-dev unzip ssh \
       && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update \
@@ -54,30 +54,3 @@ SHELL ["/bin/zsh", "-c"]
 RUN useradd --create-home --shell /bin/zsh ${USER}
 USER ${USER}
 WORKDIR /home/${USER}
-
-RUN git clone https://github.com/daisukekobayashi/dotfiles ${HOME}/.dotfiles \
-      && cd ${HOME}/.dotfiles \
-      && ${HOME}/.dotfiles/install.sh \
-      && cd ${HOME} \
-      && source ${HOME}/.zshrc; exit 0
-
-RUN tmux start-server \
-      && tmux new-session -d \
-      && ${HOME}/.tmux/plugins/tpm/scripts/install_plugins.sh \
-      && tmux kill-server
-
-RUN env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.6.8 \
-      && pyenv virtualenv 3.6.8 python3.6.8 \
-      && source ${HOME}/.zshrc; exit 0
-
-RUN pyenv shell python3.6.8 \
-      && pip install --upgrade pip \
-      && pip install neovim ipython numpy
-
-RUN source ${HOME}/.nvm/nvm.sh \
-      && nvm install 10.15.0 \
-      && source ${HOME}/.zshrc; exit 0
-
-RUN ${HOME}/.rbenv/bin/rbenv install 2.6.1
-
-RUN pyenv shell python3.6.8 && nvim +'PlugInstall --sync' +qall
