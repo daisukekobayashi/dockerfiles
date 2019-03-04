@@ -1,10 +1,18 @@
 FROM debian:stretch-slim
+MAINTAINER daisukekobayashi <daisuke@daisukekobayashi.com>
 
 ENV DEBIAN_FRONTEND noninteractivea
 
 ARG username
 ENV USER $username
 ENV HOME /home/${USER}
+
+RUN echo "deb http://deb.debian.org/debian stretch non-free" \
+      >> /etc/apt/sources.list.d/stretch.non-free.list \
+      && echo "deb http://security.debian.org/debian-security stretch/updates non-free" \
+      >> /etc/apt/sources.list.d/stretch.non-free.list \
+      && echo "deb http://deb.debian.org/debian stretch-updates non-free" \
+      >> /etc/apt/sources.list.d/stretch.non-free.list
 
 RUN apt-get update \
       && apt-get install -y locales \
@@ -30,7 +38,7 @@ RUN apt-get update \
             zsh git curl wget vim-nox neovim golang-go \
             make cmake build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
             llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev \
-            autoconf bison libyaml-dev libgdbm-dev unzip ssh \
+            autoconf bison libyaml-dev libgdbm-dev ssh zip unzip rar unrar \
       && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update \
@@ -47,7 +55,8 @@ RUN apt-get update \
 RUN wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb \
       && dpkg -i erlang-solutions_1.0_all.deb \
       && apt-get update \
-      && apt-get install --no-install-recommends --no-install-suggests -y esl-erlang elixir
+      && apt-get install --no-install-recommends --no-install-suggests -y esl-erlang elixir \
+      && rm -rf /var/lib/apt/lists/*
 
 SHELL ["/bin/zsh", "-c"]
 
