@@ -39,6 +39,7 @@ RUN apt-get update \
             make cmake build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
             llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev \
             autoconf bison libyaml-dev libgdbm-dev ssh zip unzip rar unrar gawk \
+            jq ripgrep silversearcher-ag rsync cron \
       && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update \
