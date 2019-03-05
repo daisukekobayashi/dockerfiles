@@ -42,7 +42,7 @@ RUN apt-get update \
       && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update \
-      && apt-get install --no-install-recommends --no-install-suggests -y automake xsel libevent-dev \
+      && apt-get install --no-install-recommends --no-install-suggests -y automake xsel libevent-dev xdg-utils \
       && rm -rf /var/lib/apt/lists/* \
       && git clone https://github.com/tmux/tmux.git \
       && cd tmux \
