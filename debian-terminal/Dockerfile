@@ -3,7 +3,7 @@ MAINTAINER daisukekobayashi <daisuke@daisukekobayashi.com>
 
 ENV DEBIAN_FRONTEND noninteractivea
 
-ARG username
+ARG username=debian
 ENV USER $username
 ENV HOME /home/${USER}
 
