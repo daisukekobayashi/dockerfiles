@@ -42,6 +42,13 @@ RUN apt-get update \
             jq ripgrep silversearcher-ag rsync cron \
       && rm -rf /var/lib/apt/lists/*
 
+RUN TEMP_DEB="$(mktemp)" \
+      && curl -sL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest \
+          | jq -r '.assets[] | select(.browser_download_url | contains("deb")) | .browser_download_url' \
+          | wget -O "$TEMP_DEB" -qi - \
+      && dpkg -i "$TEMP_DEB" \
+      && rm -f "$TEMP_DEB"
+
 RUN apt-get update \
       && apt-get install --no-install-recommends --no-install-suggests -y automake xsel libevent-dev xdg-utils \
       && rm -rf /var/lib/apt/lists/* \
